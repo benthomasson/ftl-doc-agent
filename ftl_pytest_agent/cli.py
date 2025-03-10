@@ -10,7 +10,7 @@ from .codegen import (
     generate_explain_header,
     generate_explain_action_step,
 )
-from ftl_pytest_agent.memory import ActionStep
+from ftl_doc_agent.memory import ActionStep
 from smolagents.agent_types import AgentText
 
 
