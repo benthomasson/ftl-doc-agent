@@ -1,6 +1,7 @@
 import importlib
 import os
 import types
+import inspect
 
 
 class Bunch:
@@ -27,3 +28,7 @@ def get_functions(code_file):
             fns.append(item)
 
     return module, fns
+
+
+def get_function_code(fn):
+    return inspect.getsource(fn)
