@@ -180,7 +180,7 @@ def get_json_schema(func: Callable) -> Dict:
             continue
         if arg not in param_descriptions:
             raise DocstringParsingException(
-                f"Cannot generate JSON schema for {func.__name__} because the docstring has no description for the argument '{arg}'"
+                f"Cannot generate JSON schema for {func.__name__} because the docstring has no description for the argument '{arg}'. Do not include the type with the argument name."
             )
         desc = param_descriptions[arg]
         enum_choices = re.search(r"\(choices:\s*(.*?)\)\s*$", desc, flags=re.IGNORECASE)
