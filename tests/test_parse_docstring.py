@@ -1,6 +1,6 @@
 
 
-from smolagents._function_type_hints_utils import _parse_google_format_docstring
+from ftl_doc_agent._function_type_hints_utils import _parse_google_format_docstring
 
 
 
@@ -33,7 +33,7 @@ def test_2():
 
         Args:
             docstring (str): A string containing the docstring for the function.
-            function: the name of the function.
+            function (str): the name of the function.
         """)
     print(main_doc, param_descriptions, return_doc)
 
