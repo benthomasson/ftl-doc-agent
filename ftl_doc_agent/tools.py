@@ -1,5 +1,5 @@
 from smolagents.tools import Tool, tool
-from smolagents._function_type_hints_utils import (
+from ft_agent._function_type_hints_utils import (
     _parse_google_format_docstring,
     DocstringParsingException,
     get_type_hints,

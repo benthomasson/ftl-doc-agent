@@ -81,17 +81,10 @@ def test_3():
 
   Args:
       n (int): Number of people standing in a straight line. Must be >= 2.
-          Example: For n=4, there are four people numbered from 1 to 4.
       time (int): Number of seconds the pillow has been passed. Must be >= 1.
-          Example: For time=5, the pillow has changed hands five times.
 
   Returns:
       int: The index of the person currently holding the pillow after 'time' seconds.
-
-  Example:
-      Input: n=4, time=5
-      Output: 2
-      Explanation: The sequence is 1 -> 2 -> 3 -> 4 -> 3 -> 2.
   """
 
     def fn(n: int, time: int) -> int:
