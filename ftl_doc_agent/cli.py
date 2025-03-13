@@ -25,12 +25,14 @@ from pprint import pprint
 @click.option("--model", "-m", default="ollama_chat/deepseek-r1:14b")
 @click.option("--output", "-o", default="output.py")
 @click.option("--explain", "-e", default="output.txt")
+@click.option("--additional-info", "-a", default=None)
 def main(
     code_file,
     function,
     model,
     output,
     explain,
+    additional_info,
 ):
     """An agent that updates code with docstrings"""
 
@@ -49,7 +51,7 @@ def main(
     fn = state['func'] = getattr(module, function)
     function_code = get_function_code(fn)
 
-    prompt = f"""Given the defintion the following python function create a docstring that explains what the function does,
+    prompt = f"""Given the definition of the following python function create a docstring that explains what the function does,
 what the arguments are, and what the function returns.  Update the code with new docstring using docstring() .
 Finally call complete when done.   Do not define the function again.  Use the Google-style docstring using 'Args:' and 'Returns:' like
 this:
@@ -67,6 +69,11 @@ The function:
 {function_code}
 
     """
+
+    if additional_info:
+        with open(additional_info) as f:
+            prompt += "\nConsider this additional info as well:\n"
+            prompt += f.read()
 
     print(prompt)
 

@@ -22,6 +22,7 @@ build-backend = "setuptools.build_meta"
 ftl-doc-agent = "ftl_doc_agent.cli:main"
 ftl-doc-agent-ui = "ftl_doc_agent.ui:main"
 ftl-doc-agent2 = "ftl_doc_agent.cli2:main"
+ftl-doc-agent3 = "ftl_doc_agent.cli3:main"
 
 [tool.setuptools.package-data]
 "ftl_doc_agent.prompts" = ["*.yaml"]

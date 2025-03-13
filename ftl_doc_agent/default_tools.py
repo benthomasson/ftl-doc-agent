@@ -11,8 +11,26 @@ from smolagents._function_type_hints_utils import (
     DocstringParsingException,
 )
 
-
 class Complete(Tool):
+    name = "complete"
+
+    def __init__(self, state, *args, **kwargs):
+        self.state = state
+        super().__init__(*args, **kwargs)
+
+    def forward(self, message: str = "Task was completed"):
+        """
+        Mark the solution as complete.
+
+        Args:
+            message: A completion message
+        """
+
+        raise FinalAnswerException(message)
+
+    description, inputs, output_type = get_json_schema(forward)
+
+class CompleteDocString(Tool):
     name = "complete"
 
     def __init__(self, state, *args, **kwargs):
@@ -72,6 +90,7 @@ class DocString(Tool):
         """
 
         func = self.state["func"]
+
         main_doc, param_descriptions, return_doc = _parse_google_format_docstring(
             docstring
         )
@@ -105,6 +124,12 @@ class DocString(Tool):
 
 
 TOOLS = {
+    "complete": CompleteDocString,
+    "impossible": Impossible,
+    "docstring": DocString,
+}
+
+TOOLS3 = {
     "complete": Complete,
     "impossible": Impossible,
     "docstring": DocString,
