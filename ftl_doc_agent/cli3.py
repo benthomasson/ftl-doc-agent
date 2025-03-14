@@ -22,18 +22,20 @@ from pprint import pprint
 @click.option("--model", "-m", default="ollama_chat/deepseek-r1:14b")
 @click.option("--output", "-o", default="output.py")
 @click.option("--explain", "-e", default="output.txt")
+@click.option("--llm-api-base", default=None)
 def main(
     code_file,
     function,
     model,
     output,
     explain,
+    llm_api_base,
 ):
     """An agent that updates code with type hints"""
 
     tool_classes = {}
     tool_classes.update(TOOLS3)
-    model = create_model(model)
+    model = create_model(model, llm_api_base=llm_api_base)
     state = {
         'func': None,
     }
@@ -68,13 +70,15 @@ The function:
     ):
         if isinstance(o, ActionStep):
             generate_explain_action_step(explain, o)
-            if o.trace and o.tool_calls:
+            if o.tool_calls:
                 for call in o.tool_calls:
                     code_blocks.append(call.arguments)
         elif isinstance(o, AgentText):
             print(o.to_string())
 
-    # print(code_blocks)
+    if not code_blocks:
+        raise Exception(f'No code blocks found')
+    print(f"{code_blocks=}")
     with open(code_file) as f:
         red = RedBaron(f.read())
 
@@ -87,9 +91,10 @@ The function:
     if target is None:
         raise Exception(f'function {function} not found in code')
 
+
     found = False
     for code_block in code_blocks:
-        # print(code_block)
+        print(f"{code_block}")
         red_fn = RedBaron(code_block)
         # red_fn.help()
         for o in red_fn:

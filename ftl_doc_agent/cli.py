@@ -26,6 +26,7 @@ from pprint import pprint
 @click.option("--output", "-o", default="output.py")
 @click.option("--explain", "-e", default="output.txt")
 @click.option("--additional-info", "-a", default=None)
+@click.option("--llm-api-base", default=None)
 def main(
     code_file,
     function,
@@ -33,12 +34,13 @@ def main(
     output,
     explain,
     additional_info,
+    llm_api_base,
 ):
     """An agent that updates code with docstrings"""
 
     tool_classes = {}
     tool_classes.update(TOOLS)
-    model = create_model(model)
+    model = create_model(model, llm_api_base=llm_api_base)
     state = {
         'docstring': '',
         'func': None,
