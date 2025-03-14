@@ -1,5 +1,6 @@
 import click
 
+import os
 from .core import create_model, run_agent
 from .default_tools import TOOLS
 from .tools import get_tool
@@ -40,7 +41,7 @@ def main(
 
     tool_classes = {}
     tool_classes.update(TOOLS)
-    model = create_model(model, llm_api_base=llm_api_base)
+    model = create_model(model, llm_api_base=llm_api_base or os.environ.get('LLM_API_BASE'))
     state = {
         'docstring': '',
         'func': None,

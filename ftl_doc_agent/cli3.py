@@ -1,5 +1,6 @@
 import click
 
+import os
 from .core import create_model, run_agent
 from .default_tools import TOOLS3
 from .tools import get_tool
@@ -35,7 +36,7 @@ def main(
 
     tool_classes = {}
     tool_classes.update(TOOLS3)
-    model = create_model(model, llm_api_base=llm_api_base)
+    model = create_model(model, llm_api_base=llm_api_base or os.environ.get('LLM_API_BASE'))
     state = {
         'func': None,
     }
@@ -77,7 +78,7 @@ The function:
             print(o.to_string())
 
     if not code_blocks:
-        raise Exception(f'No code blocks found')
+        raise Exception('No code blocks found')
     print(f"{code_blocks=}")
     with open(code_file) as f:
         red = RedBaron(f.read())
@@ -90,7 +91,6 @@ The function:
 
     if target is None:
         raise Exception(f'function {function} not found in code')
-
 
     found = False
     for code_block in code_blocks:
