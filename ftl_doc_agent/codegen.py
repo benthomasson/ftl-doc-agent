@@ -44,6 +44,7 @@ def generate_python_tool_call(output, call):
 
 
 def reformat_python(output):
+    os.system("isort " + output)
     os.system("black " + output)
 
 

@@ -21,6 +21,7 @@ def make_agent(tools, model):
         model=model,
         verbosity_level=4,
         prompt_templates=prompt_templates,
+        additional_authorized_imports=['typing'],
     )
     return agent
 

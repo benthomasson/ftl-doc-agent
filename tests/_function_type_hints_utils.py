@@ -274,9 +274,9 @@ def _parse_google_format_docstring(
     # Parsing the arguments into a dictionary
     if docstring_args is not None:
         docstring_args = "\n".join([line for line in docstring_args.split("\n") if line.strip()])  # Remove blank lines
-        print(f"{docstring_args=}")
+        # print(f"{docstring_args=}")
         matches = args_split_re.findall(docstring_args)
-        print(f"{matches=}")
+        # print(f"{matches=}")
         args_dict = {match[0]: re.sub(r"\s*\n+\s*", " ", match[1].strip()) for match in matches}
         matches2 = args_split_re2.findall(docstring_args)
         args_dict.update({match[0]: re.sub(r"\s*\n+\s*", " ", match[1].strip()) for match in matches2})

@@ -11,12 +11,9 @@ from .codegen import (
 from ftl_doc_agent.memory import ActionStep
 from smolagents.agent_types import AgentText
 from .util import get_functions, get_function_code
-import json
 
 from redbaron import RedBaron
-
 from pprint import pprint
-
 
 
 @click.command()
@@ -59,11 +56,10 @@ The function:
 
     """
 
-    print(prompt)
-
     generate_explain_header(explain, prompt)
 
     code_blocks = []
+    imports = []
 
     for o in run_agent(
         tools=[get_tool(tool_classes, t, state) for t in tools],
@@ -78,7 +74,7 @@ The function:
         elif isinstance(o, AgentText):
             print(o.to_string())
 
-    #print(code_blocks)
+    # print(code_blocks)
     with open(code_file) as f:
         red = RedBaron(f.read())
 
@@ -91,33 +87,41 @@ The function:
     if target is None:
         raise Exception(f'function {function} not found in code')
 
-
     found = False
     for code_block in code_blocks:
-        #print(code_block)
+        # print(code_block)
         red_fn = RedBaron(code_block)
-        #red_fn.help()
+        # red_fn.help()
         for o in red_fn:
             if o.name == function and o.type == "def":
+                # replace the fn body with the target fn body
                 o.value = target.value
+                # replace the whole fn with the fn with type hints
                 target.replace(o)
                 found = True
+            if o.type == "from_import":
+                imports.append(o)
+            if o.type == "import":
+                imports.append(o)
         else:
             continue
         break
 
-    if found is None:
+    if not found:
+        pprint(code_blocks)
         raise Exception(f'function {function} not found in code blocks')
 
+    for imp in imports:
+        red.insert(0, imp)
 
     print(target.dumps())
 
-    #print(state['docstring'])
-    #red[0].value.insert(0, f'\n"""{state["docstring"]}"""\n')
-    #pprint(red.dumps())
+    # print(state['docstring'])
+    # red[0].value.insert(0, f'\n"""{state["docstring"]}"""\n')
+    # pprint(red.dumps())
 
     with open(output, 'w') as f:
         f.write(red.dumps())
-        #print(red.dumps())
+        # print(red.dumps())
 
     reformat_python(output)

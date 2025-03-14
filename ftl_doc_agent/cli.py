@@ -97,6 +97,19 @@ The function:
     red[0].value.insert(0, f'\n"""{state["docstring"]}"""\n')
     pprint(red.dumps())
 
+    imports = []
+
+    with open(code_file) as f:
+        red_original = RedBaron(f.read())
+        for o in red_original:
+            if o.type == "from_import":
+                imports.append(o)
+            if o.type == "import":
+                imports.append(o)
+
+    for imp in imports:
+        red.insert(0, imp)
+
     with open(output, 'w') as f:
         f.write(red.dumps())
         print(red.dumps())
