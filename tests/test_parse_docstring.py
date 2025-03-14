@@ -87,3 +87,32 @@ def test_4():
     assert main_doc.startswith("Determines if two strings are anagrams by comparing character frequencies.")
     assert param_descriptions == {'s': 'The first string used for comparison.', 't': 'The second string used for comparison.'}
     assert return_doc == "bool: True if `t` is an anagram of `s`, False otherwise."
+
+
+def test_5():
+
+    main_doc, param_descriptions, return_doc = _parse_google_format_docstring(
+    """
+Calculate the maximum possible sum of numbers on exactly k items selected from a 
+bag containing 1s, 0s, and -1s.
+
+Args:
+    numOnes (int): Number of items with 1 written on them.
+    numZeros (int): Number of items with 0 written on them.
+    numNegOnes (int): Number of items with -1 written on them.
+    k (int): The number of items to select.
+
+Returns:
+    int: The maximum sum achievable with exactly k selected items.
+    """)
+
+    print(main_doc, param_descriptions, return_doc)
+
+    assert main_doc.startswith("Calculate the maximum possible sum of numbers on exactly k items selected from a")
+    assert list(param_descriptions.keys()) == [
+                 'numOnes',
+                 'numZeros',
+                 'numNegOnes',
+                 'k',
+             ]
+    assert return_doc == "int: The maximum sum achievable with exactly k selected items."
