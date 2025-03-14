@@ -6,7 +6,7 @@ from ftl_doc_agent.tools import _convert_type_hints_to_json_schema
 import re
 import json
 
-from smolagents._function_type_hints_utils import (
+from ftl_doc_agent._function_type_hints_utils import (
     _parse_google_format_docstring,
     DocstringParsingException,
 )
@@ -119,6 +119,8 @@ class DocString(Tool):
             schema["description"] = desc
 
         self.state["docstring"] = docstring
+
+        raise FinalAnswerException('Added docstring')
 
     description, inputs, output_type = get_json_schema(forward)
 

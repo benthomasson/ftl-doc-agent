@@ -65,6 +65,10 @@ this:
     Returns:
         The function description, arguments, and return description.
 
+End of example.
+
+Do not include examples in the docstring. Do not include notes in the docstring.
+
 The function:
 {function_code}
 
